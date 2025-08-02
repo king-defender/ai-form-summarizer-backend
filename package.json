@@ -1,0 +1,27 @@
+{
+  "name": "ai-form-summarizer-backend",
+  "version": "1.0.0",
+  "description": "AI-powered form summarization and multi-channel distribution backend",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["ai", "form", "summarization", "webhook", "automation"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.0",
+    "nodemailer": "^6.9.7",
+    "@slack/web-api": "^6.10.0",
+    "@notionhq/client": "^2.2.13",
+    "googleapis": "^128.0.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
