@@ -2,6 +2,28 @@
 
 A robust Node.js backend service with multi-user support, MongoDB integration, and authentication features for processing and summarizing form submissions using AI.
 
+## Quick Start
+
+```bash
+# Clone and setup
+git clone <repository-url>
+cd ai-form-summarizer-backend
+npm install
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your settings
+
+# Start MongoDB (using Docker)
+docker run -d --name mongodb -p 27017:27017 mongo:latest
+
+# Start the server
+npm start
+
+# Test the installation
+./test.sh
+```
+
 ## Features
 
 - **Multi-user Authentication**: Secure user registration, login, and password reset
@@ -148,7 +170,32 @@ volumes:
 docker-compose up -d
 ```
 
-## API Documentation
+## Testing
+
+### Automated Testing
+
+A comprehensive test script is provided to validate all functionality:
+
+```bash
+# Make sure the server is running first
+npm start
+
+# In another terminal, run the test script
+./test.sh
+```
+
+The test script will:
+- ✅ Check server health
+- ✅ Test user registration and login
+- ✅ Verify JWT authentication
+- ✅ Test form submission processing
+- ✅ Test distribution functionality
+- ✅ Validate authorization protection
+- ✅ Test error handling
+
+### Manual Testing
+
+You can also test individual endpoints manually:
 
 ### Base URL
 ```
