@@ -56,7 +56,6 @@ build
 .gitignore
 
 # Documentation
-README.md
 docs
 
 # Docker
