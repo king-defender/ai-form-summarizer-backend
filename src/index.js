@@ -1,4 +1,10 @@
-require('dotenv').config();
+// Load environment variables if dotenv is available
+try {
+  require('dotenv').config();
+} catch (err) {
+  // dotenv not available, using environment variables directly
+  console.log('Environment variables loaded directly (dotenv not available)');
+}
 const express = require('express');
 const logger = require('./utils/logger');
 const { errorHandler } = require('./utils/errorHandler');
