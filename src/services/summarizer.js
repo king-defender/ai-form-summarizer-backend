@@ -82,7 +82,7 @@ class SummarizerService {
     const prompt = customPrompt || defaultPrompt;
     
     const formDataString = Object.entries(formData || {})
-      .filter(([key, value]) => key != null && value != null)
+      .filter(([key, value]) => key !== null && key !== undefined && value !== null && value !== undefined)
       .map(([key, value]) => `${String(key)}: ${String(value)}`)
       .join('\n');
 
