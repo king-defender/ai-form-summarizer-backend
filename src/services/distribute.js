@@ -76,7 +76,7 @@ class DistributeService {
       }
     }
 
-    const summary_result = {
+    const summaryResult = {
       success: Object.keys(results).length > 0,
       results,
       errors,
@@ -88,8 +88,8 @@ class DistributeService {
       }
     };
 
-    logger.info('Distribution completed', summary_result.summary);
-    return summary_result;
+    logger.info('Distribution completed', summaryResult.summary);
+    return summaryResult;
   }
 
   /**
@@ -100,7 +100,7 @@ class DistributeService {
    * @returns {Promise<Object>} Result
    */
   async distributeToEmail(summary, originalForm, config) {
-    return await emailService.sendSummary(summary, originalForm, config);
+    return emailService.sendSummary(summary, originalForm, config);
   }
 
   /**
@@ -111,7 +111,7 @@ class DistributeService {
    * @returns {Promise<Object>} Result
    */
   async distributeToSlack(summary, originalForm, config) {
-    return await slackService.sendSummary(summary, originalForm, config);
+    return slackService.sendSummary(summary, originalForm, config);
   }
 
   /**
@@ -122,7 +122,7 @@ class DistributeService {
    * @returns {Promise<Object>} Result
    */
   async distributeToNotion(summary, originalForm, config) {
-    return await notionService.addSummary(summary, originalForm, config);
+    return notionService.addSummary(summary, originalForm, config);
   }
 
   /**
@@ -133,7 +133,7 @@ class DistributeService {
    * @returns {Promise<Object>} Result
    */
   async distributeToSheets(summary, originalForm, config) {
-    return await sheetsService.addSummary(summary, originalForm, config);
+    return sheetsService.addSummary(summary, originalForm, config);
   }
 
   /**
