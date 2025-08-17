@@ -53,13 +53,17 @@ class SummarizerService {
    * @returns {Object} Filtered form data
    */
   extractFields(formData, selectedFields) {
-    if (!selectedFields || selectedFields.length === 0) {
+    if (!formData || typeof formData !== 'object') {
+      return {};
+    }
+
+    if (!selectedFields || !Array.isArray(selectedFields) || selectedFields.length === 0) {
       return formData;
     }
 
     const extracted = {};
     selectedFields.forEach(field => {
-      if (formData.hasOwnProperty(field)) {
+      if (formData.hasOwnProperty(field) && formData[field] != null) {
         extracted[field] = formData[field];
       }
     });
@@ -77,8 +81,9 @@ class SummarizerService {
     const defaultPrompt = "Please provide a concise and clear summary of the following form submission:";
     const prompt = customPrompt || defaultPrompt;
     
-    const formDataString = Object.entries(formData)
-      .map(([key, value]) => `${key}: ${value}`)
+    const formDataString = Object.entries(formData || {})
+      .filter(([key, value]) => key != null && value != null)
+      .map(([key, value]) => `${String(key)}: ${String(value)}`)
       .join('\n');
 
     return `${prompt}\n\n${formDataString}`;

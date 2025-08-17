@@ -31,6 +31,23 @@ class EmailService {
   }
 
   /**
+   * Escape HTML characters to prevent XSS attacks
+   * @param {any} text - Text to escape
+   * @returns {string} Escaped text
+   */
+  escapeHtml(text) {
+    if (text == null) {
+      return '';
+    }
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /**
    * Send email with form summary
    * @param {string} summary - Generated summary text
    * @param {Object} originalForm - Original form data
@@ -58,7 +75,7 @@ class EmailService {
       <h2>Form Submission Summary</h2>
       <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0;">
         <h3>AI-Generated Summary:</h3>
-        <p>${summary}</p>
+        <p>${this.escapeHtml(summary)}</p>
       </div>
     `;
 
@@ -76,8 +93,8 @@ class EmailService {
             <tbody>
               ${Object.entries(originalForm).map(([key, value]) => `
                 <tr>
-                  <td style="border: 1px solid #ddd; padding: 8px;">${key}</td>
-                  <td style="border: 1px solid #ddd; padding: 8px;">${value}</td>
+                  <td style="border: 1px solid #ddd; padding: 8px;">${this.escapeHtml(key)}</td>
+                  <td style="border: 1px solid #ddd; padding: 8px;">${this.escapeHtml(value)}</td>
                 </tr>
               `).join('')}
             </tbody>
