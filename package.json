@@ -4,24 +4,32 @@
   "description": "AI-powered form summarization and multi-channel distribution backend",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node api.js && node src/index.js",
+    "dev": "node api.js && nodemon src/index.js",
+    "test": "jest"
   },
-  "keywords": ["ai", "form", "summarization", "webhook", "automation"],
+  "keywords": [
+    "ai",
+    "form",
+    "summarization",
+    "webhook",
+    "automation"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "dotenv": "^16.3.1",
-    "axios": "^1.6.0",
-    "nodemailer": "^6.9.7",
-    "@slack/web-api": "^6.10.0",
     "@notionhq/client": "^2.2.13",
+    "@slack/web-api": "^6.10.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "googleapis": "^128.0.0",
+    "nodemailer": "^6.9.7",
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "jest": "^30.5.1",
+    "nodemon": "^3.0.1",
+    "supertest": "^7.2.2"
   }
 }
