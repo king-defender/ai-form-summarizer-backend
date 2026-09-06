@@ -6,6 +6,7 @@ try {
   console.log('Environment variables loaded directly (dotenv not available)');
 }
 const express = require('express');
+const path = require('node:path');
 const logger = require('./utils/logger');
 const { errorHandler } = require('./utils/errorHandler');
 const webhookRoutes = require('./routes/webhook');
@@ -27,6 +28,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Local demo form for exercising /api/webhook without a real Google Forms/Typeform
+// integration - same origin as the API, so no CORS setup is needed for it.
+app.use('/demo', express.static(path.join(__dirname, '..', 'demo')));
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'healthy', timestamp: new Date().toISOString() });
@@ -44,9 +49,12 @@ app.use('*', (req, res) => {
 // Global error handler
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`);
-});
+// Start server (skipped when required by tests via supertest, which drives the app
+// in-process without an open port)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    logger.info(`Server running on port ${PORT}`);
+  });
+}
 
 module.exports = app;
