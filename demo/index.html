@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AI Form Summarizer — local demo</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; color: #1a1c24; }
+  h1 { font-size: 20px; }
+  p.hint { color: #5a5e6d; font-size: 14px; }
+  label { display: block; margin-top: 14px; font-weight: 600; font-size: 13px; }
+  input, textarea { width: 100%; padding: 8px; margin-top: 4px; font-size: 14px; box-sizing: border-box; }
+  button { margin-top: 18px; padding: 10px 18px; font-size: 14px; cursor: pointer; }
+  pre { background: #eceef4; padding: 14px; border-radius: 8px; white-space: pre-wrap; margin-top: 20px; font-size: 13px; }
+  .error { color: #b3261e; }
+</style>
+</head>
+<body>
+  <h1>AI Form Summarizer — local demo</h1>
+  <p class="hint">
+    This is a stand-in "form" for exercising the real webhook (<code>POST /api/webhook</code>)
+    without needing an actual Google Forms/Typeform integration yet. Start the backend
+    (<code>npm run dev</code>), then open <a href="http://localhost:3000/demo/">http://localhost:3000/demo/</a>
+    (served by the backend itself, not opened as a local file — that avoids a same-origin/CORS
+    detour entirely). Fill in a couple of fields and submit — you'll see exactly what the
+    backend returns, including the honest "no AI provider configured" error if you haven't
+    set an API key yet.
+  </p>
+
+  <form id="demo-form">
+    <label>Name<input name="name" value="Ada Lovelace" /></label>
+    <label>Feedback<textarea name="feedback" rows="3">The onboarding flow was smooth but the pricing page was confusing.</textarea></label>
+    <button type="submit">Submit to /api/webhook</button>
+  </form>
+
+  <pre id="result" hidden></pre>
+
+  <script>
+    const form = document.getElementById('demo-form');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const formResponse = Object.fromEntries(formData.entries());
+
+      result.hidden = false;
+      result.textContent = 'Submitting...';
+      result.classList.remove('error');
+
+      try {
+        const response = await fetch('/api/webhook', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ formResponse }),
+        });
+        const body = await response.json();
+        result.textContent = `HTTP ${response.status}\n\n${JSON.stringify(body, null, 2)}`;
+        if (!response.ok) result.classList.add('error');
+      } catch (err) {
+        result.classList.add('error');
+        result.textContent = `Could not reach the backend at http://localhost:3000 - is "npm run dev" running?\n\n${err.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
